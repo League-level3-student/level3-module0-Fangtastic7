@@ -76,7 +76,7 @@ public class _01_RobotRace {
 			for(int i=0;i<5;i++) {
 				if(robot[0].getX() >= 1300 || robot[0].getX() <= 400) {
 					robot[0].turn(-10);
-					robot[0].move(20);
+					robot[i].move((i* 10) + 20);
 				}
 				else if(robot[1].getX() >= 1325 || robot[1].getX()<= 400){
 					robot[1].turn(-10);
