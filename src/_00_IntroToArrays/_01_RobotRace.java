@@ -11,7 +11,6 @@ public class _01_RobotRace {
 	public static void main(String[] args) {
 		Robot[] robot = new Robot[5];
 		boolean winner = false;
-		boolean winner2 = false;
 		for(int i=0; i<robot.length;i++) {
 			robot[i] = new Robot();
 			robot[i].setX(i * 100 + 200);
@@ -44,9 +43,9 @@ public class _01_RobotRace {
 		
 		
 		
+		//making circular track
 		
 		for(int i=0; i<5;i++) {
-			
 			robot[i].setX(400);
 			robot[i].setY(500 + (i*50));
 			robot[i].penDown();
@@ -66,40 +65,28 @@ public class _01_RobotRace {
 		
 			}
 		}
+		//set places for start
 		for(int i=0;i<5;i++) {
 			robot[i].penUp();
 			robot[i].setX(400 + (i*225));
-			robot[i].setY(525 + (i*50));
+			//robot[i].setY(525 + (i*50));
 			
 		}
-		while(!winner2) {
-			for(int i=0;i<5;i++) {
-				if(robot[0].getX() >= 1300 || robot[0].getX() <= 400) {
-					robot[0].turn(-10);
-					robot[i].move((i* 10) + 20);
-				}
-				else if(robot[1].getX() >= 1325 || robot[1].getX()<= 400){
-					robot[1].turn(-10);
-					robot[1].move(30);
-				}
-				else if(robot[2].getX() >=1350 || robot[2].getX() <= 400) {
-					robot[2].turn(-10);
-					robot[2].move(40);
-				}
-				else if(robot[3].getX() >=1375 || robot[3].getX() <= 400) {
-					robot[3].turn(-10);
-					robot[3].move(50);
-			}
-				else if(robot[4].getX() >=1400 || robot[4].getX() <= 400) {
-					robot[4].turn(-10);
-					robot[4].move(60);
-		}
-				else {
-					robot[i].move(900 + (i* 25));
-				}
-		}
 		
-	}
+		Thread one = new Thread(()->race(robot[0], 0));
+		Thread two = new Thread(()->race(robot[1], 1));
+		Thread three = new Thread(()->race(robot[2], 2));
+		Thread four = new Thread(()->race(robot[3], 3));
+		Thread five = new Thread(()->race(robot[4], 4));
+		
+		one.start();
+		two.start();
+		three.start();
+		four.start();
+		five.start();
+		
+		
+	
 		//2. create an array of 5 robots.
 
 		//3. use a for loop to initialize the robots.
@@ -120,4 +107,28 @@ public class _01_RobotRace {
 		
 	
 		}
+
+	public static int  race(Robot bot, int i) {
+		// TODO Auto-generated method stub
+		Random speed = new Random();
+		bot.setSpeed(speed.nextInt(10));
+		bot.move(1000- (i*225));
+		rotate(bot, i);
+		bot.move(900 + (i* 25));
+		rotate(bot, i);
+		bot.setSpeed(speed.nextInt(10));
+		bot.move(900 + (i* 25));
+		System.out.println("Robot " + i + " has finished the race!");
+		return i;
+	}
+
+	public static void rotate(Robot bot, int i) {
+		// TODO Auto-generated method stub
+		Random speed = new Random();
+		bot.setSpeed(speed.nextInt(10));
+		for(int x=0; x<18;x++) {
+			bot.turn(-10);
+			bot.move((i* 10) + 20);
+			}
+	}
 }
